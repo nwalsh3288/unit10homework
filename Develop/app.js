@@ -14,6 +14,65 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+// repeat this for Engineer and Intern
+ function managerFunction() {
+     
+    inquirer.prompt([
+    
+    {
+    type: "input",
+    name:"managerName",
+    message: "What is your name?"},
+
+    {
+    type: "input",
+    name:"managerID",
+    message: "What is your ID?"},
+   
+    {
+    type: "input",
+    name:"managerEmail",
+    message: "What is your email?"
+    
+    }])
+    
+    .then(userDecision => {
+    // all work to run in here - an object with responses given from questions above
+    
+    teamFunction()
+})
+}
+
+function teamFunction() {
+    
+    inquirer.prompt({
+    type: "input",
+    name: "eori",
+    message: "Do you want to add an Engineer or Intern?"
+}).then(userDecision => {
+    // branches off into two potiential functions
+    switch (userDecision.eori){
+        case "Engineer":
+        return engineerFunction()
+        // make this function
+        
+        case "intern":
+        return internFunction()
+        // function
+
+    }
+
+
+})
+}
+
+managerFunction()
+// teamFunction()
+
+// manager function first
+// ask spicifically if they want to have an intern or engeineer (yes or no)
+    // inside of then -- create two functions that handles their response
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
