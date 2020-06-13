@@ -10,6 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const emptyObject = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -27,7 +28,7 @@ const render = require("./lib/htmlRenderer");
     {
     type: "input",
     name:"managerID",
-    message: "What is your ID?"},
+    message: "What is your employee ID?"},
    
     {
     type: "input",
@@ -38,7 +39,7 @@ const render = require("./lib/htmlRenderer");
     
     .then(userDecision => {
     // all work to run in here - an object with responses given from questions above
-    
+    console.log(userDecision);
     teamFunction()
 })
 }
@@ -48,7 +49,7 @@ function teamFunction() {
     inquirer.prompt({
     type: "input",
     name: "eori",
-    message: "Do you want to add an Engineer or Intern?"
+    message: "Do you want to add an Engineer or Intern or Stop?"
 }).then(userDecision => {
     // branches off into two potiential functions
     switch (userDecision.eori){
@@ -56,15 +57,88 @@ function teamFunction() {
         return engineerFunction()
         // make this function
         
-        case "intern":
+        case "Intern":
         return internFunction()
         // function
+
+        case "Stop":
+        return stopFunction()
 
     }
 
 
 })
 }
+
+function engineerFunction(){
+    inquirer.prompt([
+        {
+        type: "input",
+        name: "engineerName",
+        message: "What is your name?"
+        },
+        {
+        type: "input",
+        name: "engineerID",
+        message: "What is your employee ID?"
+        },
+        {
+        type: "input",
+        name: "engineerEmail",
+        message: "What is your email?"
+        },
+        {
+        type: "input",
+        name: "engineerGitHub",
+        message: "What is your GitHub username?"
+        },
+    ])
+    .then(userDecision => {
+        // we need to first crate class instance
+        const engineer= new Engineer(userDecision.engineerName, userDecision.engineerID, userDecision.engineerEmail, userDecision.engineerGitHub);
+        // push it to a storage array
+        emptyObject.push(engineer);
+        console.log(emptyObject);
+        // execute teamFunction
+       teamFunction()
+    })
+}
+
+function internFunction(){
+    inquirer.prompt([
+        {
+        type: "input",
+        name: "internName",
+        message: "What is your name?"
+        },
+        {
+        type: "input",
+        name: "internID",
+        message: "What is your employee ID?"
+        },
+        {
+        type: "input",
+        name: "internEmail",
+        message: "What is your email?"
+        },
+        {
+        type: "input",
+        name: "internSchool",
+        message: "What school did you attend>"
+        },
+    ])
+    .then(userDecision => {
+        // push it to a storage array
+        // execute teamFunction
+    })
+}
+
+function stopFunction() {
+    // html rendering
+    fs.writeFileSync(outputPath, render(emptyObject), "utf-8");
+
+}
+
 
 managerFunction()
 // teamFunction()
