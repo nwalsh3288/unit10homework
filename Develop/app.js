@@ -35,11 +35,21 @@ const emptyObject = [];
     name:"managerEmail",
     message: "What is your email?"
     
-    }])
+    },
+    {
+        type: "input",
+        name:"managerNumber",
+        message: "What is your office number?"
+    }
+    ])
     
     .then(userDecision => {
-    // all work to run in here - an object with responses given from questions above
-    console.log(userDecision);
+     // we need to first crate class instance
+     const manager= new Manager(userDecision.managerName, userDecision.managerID, userDecision.managerEmail, userDecision.managerNumber);
+     // push it to a storage array
+     emptyObject.push(manager);
+     console.log(emptyObject);
+     // execute teamFunction
     teamFunction()
 })
 }
@@ -98,7 +108,6 @@ function engineerFunction(){
         const engineer= new Engineer(userDecision.engineerName, userDecision.engineerID, userDecision.engineerEmail, userDecision.engineerGitHub);
         // push it to a storage array
         emptyObject.push(engineer);
-        console.log(emptyObject);
         // execute teamFunction
        teamFunction()
     })
@@ -124,17 +133,22 @@ function internFunction(){
         {
         type: "input",
         name: "internSchool",
-        message: "What school did you attend>"
+        message: "What school did you attend?"
         },
     ])
     .then(userDecision => {
+        // we need to first crate class instance
+        const intern= new Intern(userDecision.internName, userDecision.internID, userDecision.internEmail, userDecision.internSchool);
         // push it to a storage array
+        emptyObject.push(intern);
         // execute teamFunction
+       teamFunction()
     })
 }
 
 function stopFunction() {
     // html rendering
+    console.log(emptyObject);
     fs.writeFileSync(outputPath, render(emptyObject), "utf-8");
 
 }
